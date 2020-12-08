@@ -1,4 +1,5 @@
 *.png
+*.csv
 node_modules
 config.json
 cookies.json
