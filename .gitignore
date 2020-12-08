@@ -2,5 +2,5 @@
 node_modules
 config.json
 cookies.json
-./out/*
+/out/*
 .DS_Store

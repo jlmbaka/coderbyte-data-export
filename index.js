@@ -5,10 +5,15 @@ const ObjectsToCsv = require("objects-to-csv");
 const config = require("./config.json");
 const cookies = require("./cookies.json");
 
-const challengeUrl =
-  "https://coderbyte.com/dashboard/kinshasadigital-6selg:html-assessment-xmmwn8ee5s";
-
 const actionsIndex = 7;
+
+function getChallengeUrl() {
+  const challengeUrls = process.argv.slice(2);
+  console.log(challengeUrls);
+  return challengeUrls[0];
+}
+
+const challengeUrl = getChallengeUrl();
 
 async function extractTestResultsFromDashboard() {
   const dashboard = document.querySelectorAll(
@@ -61,9 +66,11 @@ async function extractResultFromReportPage() {
     "React Tic Tac Toe Score": "",
     "React Tic Tac Toe Lang": "",
   };
+
   const details = {
     ...detailsColumns,
   };
+
   // console.log(document);
   const code = document.querySelector("p.code span:nth-child(2)").textContent;
   details["code"] = code;
@@ -143,11 +150,8 @@ async function extractResultFromReportPage() {
   // Crawl report pages
   let index = 0;
   const resultWithDetails = [];
+  const length = dashboardResults.length;
   for (const result of dashboardResults) {
-    // for testing only
-    if (index === 10) {
-      break;
-    }
     // handle header
     if (index === 0) {
       resultWithDetails.push([...result, ...Object.keys(detailsColumns)]);
@@ -165,6 +169,7 @@ async function extractResultFromReportPage() {
         console.log(`could not evaluate ${reportUrl}`, err);
       }
     }
+    console.log(index, "/", length);
     index++;
   }
   console.log("---");
